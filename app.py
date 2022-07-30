@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px 
 
-st.set_page_config(page_title = "Sales Dashboard",
+st.set_page_config(page_title = "Dashboard",
                    page_icon = ":bar_chart:",
                    layout = "wide"
                    )
@@ -31,33 +31,33 @@ df_selection = df.query(
 # ---- MAINPAGE ----
 st.header(":bar_chart: Data Penindakan Pelanggaran Lalu Lintas dan Angkutan Jalan Tahun 2021 Bulan Juli")
 st.markdown("##")
-
 st.markdown("""---""")
 st.dataframe(df_selection)
 st.markdown("""---""")
-# SALES BY PRODUCT LINE [BAR CHART]
+
+# Total penindakan [BAR CHART]
 total_penindakan = (
     df_selection.groupby(by=["wilayah"]).sum()[["total"]].sort_values(by="wilayah")
 )
-fig_product_sales = px.bar(
+fig_total = px.bar(
     total_penindakan,
     x="total",
     y=total_penindakan.index,
     orientation="h",
     title="<b>Total Penindakan Pelanggaran Lalu Lintas</b>",
-    color_discrete_sequence=["#0083B8"] * len(total_penindakan),
+    color_discrete_sequence=["#40DFEF"] * len(total_penindakan),
     template="plotly_white",
 )
-fig_product_sales.update_layout(
+fig_total.update_layout(
     plot_bgcolor="rgba(0,0,0,0)",
     xaxis=(dict(showgrid=False))
 )
-st.plotly_chart(fig_product_sales, use_container_width=True)
+st.plotly_chart(fig_total, use_container_width=True)
 total = int(df_selection["total"].sum())
-st.subheader(f"Total Penidakan : {total:,} Penindakan")
+st.subheader(f"Total Penindakan : {total:,} Penindakan")
 st.markdown("""---""")
 
-# TOP KPI's
+# Menjumlahkan penindakan pada tiap jenis penindakan
 total_bap_tilang = int(df_selection["bap_tilang"].sum())
 total_bap_polisi = int(df_selection["bap_polisi"].sum())
 total_stop_operasi = int(df_selection["stop_operasi"].sum())
@@ -73,7 +73,7 @@ fig_bap_tilang = px.histogram(
     x='wilayah',
     y='bap_tilang',
     title=f"<b>Penindakan BAP Tilang</b><br>Total: {total_bap_tilang:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 # BAP polisi [HISTOGRAM]
@@ -82,7 +82,7 @@ fig_bap_polisi = px.histogram(
     x='wilayah',
     y='bap_polisi',
     title=f"<b>Penindakan BAP Polisi</b><br>Total: {total_bap_polisi:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 # stop operasi [HISTOGRAM]
@@ -91,7 +91,7 @@ fig_stop_operasi = px.histogram(
     x='wilayah',
     y='stop_operasi',
     title=f"<b>Penindakan Stop Operasi</b><br>Total: {total_stop_operasi:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 # Stop Operasi Polisi [HISTOGRAM]
@@ -100,7 +100,7 @@ fig_stop_operasi_polisi = px.histogram(
     x='wilayah',
     y='stop_operasi_polisi',
     title=f"<b>Penindakan Stop Operasi Polisi</b><br>Total: {total_stop_operasi_polisi:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 # Penderekan [HISTOGRAM]
@@ -109,7 +109,7 @@ fig_penderekan = px.histogram(
     x='wilayah',
     y='penderekan',
     title=f"<b>Penindakan Penderekan</b><br>Total: {total_penderekan:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 # Pengangkutan [HISTOGRAM]
@@ -118,9 +118,8 @@ fig_pengangkutan = px.histogram(
     x='wilayah',
     y='angkut_motor',
     title=f"<b>Penindakan Angkut Motor</b><br>Total: {total_pengangkutan:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
-
 
 # OCP Roda Dua [HISTOGRAM]
 fig_ocp_roda_dua = px.histogram(
@@ -128,7 +127,7 @@ fig_ocp_roda_dua = px.histogram(
     x='wilayah',
     y='ocp_roda_dua',
     title=f"<b>Penindakan OCP Roda Dua</b><br>Total: {total_ocp_roda_dua:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 # OCP Roda Empat [HISTOGRAM]
@@ -137,7 +136,7 @@ fig_ocp_roda_empat = px.histogram(
     x='wilayah',
     y='ocp_roda_empat',
     title=f"<b>Penindakan OCP Roda Empat</b><br>Total: {total_ocp_roda_empat:,} Penindakan",
-    color_discrete_sequence=['#0078AA'],
+    color_discrete_sequence=['#40DFEF'],
 )
 
 #Membuat kolom
@@ -157,9 +156,6 @@ with col3:
 with col4:
     st.plotly_chart(fig_ocp_roda_dua, use_container_width=True)
     st.plotly_chart(fig_ocp_roda_empat, use_container_width=True)
-
-
-# ---- HIDE STREAMLIT STYLE ----
 
 hide_st_style = """
                 <style>
