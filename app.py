@@ -10,7 +10,7 @@ st.set_page_config(page_title = "Sales Dashboard",
 df = pd.read_excel(
     io = "data-penindakan-pelanggaran-lalu-lintas-dan-angkutan-jalan-tahun-2021-bulan-juli.xlsx",
     engine = 'openpyxl',
-    )
+)
 
 # Membuat kolom total 
 data = ['bap_tilang', 'stop_operasi', 'bap_polisi', 'stop_operasi_polisi', 'penderekan', 'ocp_roda_dua', 'ocp_roda_empat', 'angkut_motor']
